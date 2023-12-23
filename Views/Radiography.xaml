@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiNavigationpages.Views.Radiography"
+             Title="Radiography">
+    <VerticalStackLayout>
+		<CarouselView IndicatorView="Indicator_View">
+			<CarouselView.ItemsSource>
+				<x:Array Type="{x:Type x:String}">
+					<x:String>Geometric Unsharpness</x:String>
+					<x:String>Shot Time</x:String>
+					<x:String>Barricade and Dose</x:String>
+				</x:Array>
+			</CarouselView.ItemsSource>
+			<CarouselView.ItemTemplate>
+				<DataTemplate>
+					<StackLayout>
+					<Button FontSize="Large" BackgroundColor="AliceBlue" TextColor="DarkRed"
+						   Text="{Binding .}"/>
+						<Entry Placeholder="{Binding .}"/>
+						
+					</StackLayout>
+				</DataTemplate>
+			</CarouselView.ItemTemplate>
+		</CarouselView>
+		<IndicatorView x:Name="Indicator_View"
+					   HorizontalOptions="Center"
+					   IndicatorColor="GreenYellow"
+					   SelectedIndicatorColor="Yellow"/>
+		<WebView Source="index.html" />
+	</VerticalStackLayout>
+</ContentPage>

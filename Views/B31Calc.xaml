@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiNavigationpages.Views.B31Calc"
+             Title="B31Calc">
+	<ScrollView>
+	<VerticalStackLayout>
+		<Label 
+            Text="B31.3 Min Thickness calculator"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+			<Entry x:Name="Dia_Entry"
+				   Placeholder="Pipe Diameter"
+				   Keyboard="Numeric"
+			/>
+			<Entry x:Name="Pressure_Entry"
+				Keyboard="Numeric"
+				Placeholder="Design Pressure"
+			/>
+			<Entry x:Name="Stress_Entry"
+				   Keyboard="Numeric"
+				Placeholder="Design Stress (Table A-1)" />
+			<Entry x:Name="StressTemp_Entry"
+				   Keyboard="Numeric"
+				   Placeholder="Stress at Temperature (Hydro)"/>
+			<Entry x:Name="E_Entry"
+				    Keyboard="Numeric"
+					Placeholder="Joint Efficiency E (1.0)"
+			/>
+			<Entry x:Name="Y_Entry"
+				Placeholder="Y Coefficient (Usually 0.4)"
+				Keyboard="Numeric"
+			/>
+			<Button x:Name="Tcalc" 
+				Text="Calculate Required Thickness"
+				Pressed="Tcalc_Pressed"
+				Released="Tcalc_Released"
+				/>
+			<Label x:Name="Trequired"
+				   FontSize="Medium"
+				   FontAttributes="Bold"
+				   TextColor="#AC99EA"/>
+
+		</VerticalStackLayout>
+		
+	</ScrollView>
+</ContentPage>

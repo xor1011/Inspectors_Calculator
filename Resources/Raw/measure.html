@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <style>
+    body{
+      background-color:white;
+    }
+    #instructions{
+      width: 500px;
+      border: 15px solid grey;
+      padding: 50px;
+      margin: 20px;
+      background-color: lightblue;
+      background-blend-mode: soft-light;
+      background-image: url("https://png2.cleanpng.com/sh/e4923441dd8e8993da26ea2f1a9f76ac/L0KzQYm3VMI2N5Jmj5H0aYP2gLBuTgdqdpUyj9NBZT3yc7bojr1kdJp1RdN7dD32hcPtTgdifpYyTdNuMEfkSbe5VsA4aWMzUKgDNEC7Q4m4VcI1Pmc1UKsAMUW4SHB3jvc=/kisspng-wind-wave-ocean-clip-art-surf-wave-5ae07a9f2607a2.8684083815246608951558.png");
+      background-size: 500px, 500px;
+      background-repeat: no-repeat;
+      color: black;
+      opacity: 1;
+
+    }
+    #textbox{
+      position: relative;
+
+    }
+    #canvas {
+      border: 1px solid magenta;
+      background-color: black;
+      cursor: crosshair;
+    }
+    .context-menu {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 4px;
+      z-index: 999;
+    }
+    .context-menu div {
+      cursor: pointer;
+      padding: 4px;
+
+ 
+    }
+      
+
+  </style>
+</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body onload="typewriter()">
+
+<div class="w3-container">
+  <h2>RT Image Measurement Utility</h2>
+
+
+  <div class="w3-bar w3-light-grey">
+    <a href="http://ndttools.dx.am" class="w3-bar-item w3-button">Home</a>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Menu</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="http://ndttools.dx.am/halfLife.html" class="w3-bar-item w3-button">Decay Calc</a>
+        <a href="http://ndttools.dx.am/shotCalc.html" class="w3-bar-item w3-button">Shot Calc</a>
+        <a href="http://ndttools.dx.am/ug.html" class="w3-bar-item w3-button">Ug Calc</a>
+        <a href onclick="about()" class="w3-bar-item w3-button">About</a>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <p></p>
+ 
+  <div id="instructions">
+
+  <b>
+  <p><b>Instructions:</b></p>
+  <p>1. Click Choose File to select an image to measure.</p>
+  <p>2. After selecting your image, measure your comparator and right click and click calibrate to calibrate it by entering the known size.</p>
+  <p>3. Click and drag to measure your wall thicknesses or other items as necessary.</p>
+  <p>4. If you make a mistake, right click on the line, and click delete.</p>
+  <p>Click the "Save as" button to save </p></b>
+</div>
+
+<input type="file" id="upload" accept="image/*">
+
+<br>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      function saveCanvasAsImage() {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = "Xray001.png";
+        link.click();
+    }
+    const saveButton=document.getElementById("saveButton");
+    saveButton.addEventListener("click", saveCanvasAsImage)
+
+      let isDrawing = false;
+      let lines = [];
+      let image;
+      let cal_std = 1; // Calibration standard
+
+      // Function to draw lines
+      function drawLine(x1, y1, x2, y2, calibrate = false) {
+        ctx.beginPath();
+        ctx.strokeStyle = calibrate ? "green" : "red"; // Set line color to green if calibrate is true, else red
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+        ctx.closePath();
+        size=cal_std
+
+        if (calibrate) {
+          const clength = Math.hypot(x2 - x1, y2 - y1);
+         // const cmeasurement = (( cal_std/length)).toFixed(3);
+        calibration=cal_std/clength
+          // Display the measurement above the line
+          const textX = (x1 + x2) / 2;
+          const textY = (y1 + y2) / 2;
+          ctx.fillStyle = "green";
+          ctx.font = "14px Arial";
+          ctx.fillText(size, textX, textY - 10);
+        }
+        if (!calibrate) {
+          const length = Math.hypot(x2 - x1, y2 - y1);
+          const measurement = (length * calibration).toFixed(3);
+
+          // Display the measurement above the line
+          const textX = (x1 + x2) / 2;
+          const textY = (y1 + y2) / 2;
+          ctx.fillStyle = "red";
+          ctx.font = "14px Arial";
+          ctx.fillText(measurement, textX, textY - 10);
+        }
+      }
+
+      // Function to handle mouse events
+      function handleMouseDown(event) {
+        if (event.button === 0) {
+          const { offsetX, offsetY } = event;
+          isDrawing = true;
+          lines.push({ x1: offsetX, y1: offsetY });
+        }
+      }
+
+      function handleMouseMove(event) {
+        if (!isDrawing) return;
+        if (event.button === 0) {
+          const { offsetX, offsetY } = event;
+          const currentLine = lines[lines.length - 1];
+          currentLine.x2 = offsetX;
+          currentLine.y2 = offsetY;
+
+          redrawCanvas();
+          lines.forEach(line => {
+            drawLine(line.x1, line.y1, line.x2, line.y2, line.calibrate);
+          });
+        }
+      }
+
+      function handleMouseUp() {
+        isDrawing = false;
+      }
+
+      // Function to handle right-click event and show the context menu
+      function handleContextMenu(event) {
+        event.preventDefault();
+
+        const { offsetX, offsetY } = event;
+
+        const selectedLine = lines.find(line => {
+          const { x1, y1, x2, y2 } = line;
+          const dx = x2 - x1;
+          const dy = y2 - y1;
+          const distance = Math.hypot(dx, dy);
+          const threshold = 5; // Set the threshold for line selection
+
+          // Calculate the distance between the line and the right-click position
+          const distanceToLine = Math.abs(dy * offsetX - dx * offsetY + x2 * y1 - x1 * y2) / distance;
+
+          // Select the line if the distance is below the threshold
+          return distanceToLine <= threshold;
+        });
+
+        if (selectedLine) {
+          const menuItems = [
+            { label: "Delete", action: () => deleteLine(selectedLine) },
+            { label: "Calibrate", action: () => calibrateLine(selectedLine) }
+          ];
+
+          displayContextMenu(menuItems, event.pageX, event.pageY);
+        }
+      }
+
+      // Function to display the context menu
+      function displayContextMenu(menuItems, x, y) {
+        const contextMenu = document.createElement("div");
+        contextMenu.classList.add("context-menu");
+        contextMenu.style.left = `${x}px`;
+        contextMenu.style.top = `${y}px`;
+
+        menuItems.forEach(menuItem => {
+          const menuItemElement = document.createElement("div");
+          menuItemElement.textContent = menuItem.label;
+          menuItemElement.addEventListener("click", menuItem.action);
+          contextMenu.appendChild(menuItemElement);
+        });
+
+        document.body.appendChild(contextMenu);
+
+        // Remove the context menu on outside click
+        document.addEventListener("click", function removeContextMenu() {
+          document.body.removeChild(contextMenu);
+          document.removeEventListener("click", removeContextMenu);
+        });
+      }
+ 
+      // Function to handle line deletion
+      function deleteLine(line) {
+        lines = lines.filter(l => l !== line);
+        redrawCanvas();
+        lines.forEach(line => {
+          drawLine(line.x1, line.y1, line.x2, line.y2, line.calibrate);
+        });
+      }
+
+      // Function to handle line calibration
+      function calibrateLine(line) {
+        const { x1, y1, x2, y2 } = line;
+        const length = Math.hypot(x2 - x1, y2 - y1);
+
+        // Prompt for calibration size
+        const calSize = prompt("Enter the calibration size:");
+        if (calSize !== null) {
+          cal_std = parseFloat(calSize);
+          line.calibrate = true;
+          redrawCanvas();
+          lines.forEach(line => {
+            drawLine(line.x1, line.y1, line.x2, line.y2, line.calibrate);
+          });
+        }
+      }
+
+      // Function to redraw the canvas with the image
+      function redrawCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0);
+      }
+
+      // Add event listeners
+      canvas.addEventListener("mousedown", handleMouseDown);
+      canvas.addEventListener("mousemove", handleMouseMove);
+      canvas.addEventListener("mouseup", handleMouseUp);
+      canvas.addEventListener("contextmenu", handleContextMenu);
+
+      // Function to handle image upload
+      function handleImageUpload(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          image = new Image();
+          if (image.width*image.height>2027520) { //scale the image to prevent browser freezing. 
+            var size=image.height*image.width;
+            var scale=2027520/size;
+            image.width=image.width*scale;
+            image.height=image.height*scale;
+          }
+          image.onload = function () {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            redrawCanvas();
+          };
+          image.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      }
+
+      // Add event listener for image upload
+      const uploadInput = document.getElementById("upload");
+      uploadInput.addEventListener("change", handleImageUpload);
+
+
+ 
+
+    });
+ 
+  </script>
+  <br>
+  <button id="saveButton">Save as</button>
+  <p id="disclaim">
+  <script src="disclaimer.js"></script>
+
+</body>
+</html>

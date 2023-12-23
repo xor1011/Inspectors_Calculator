@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiNavigationpages.Views.Section_VIII"
+             Title="Section_VIII">
+	<ScrollView>
+		<VerticalStackLayout Padding="10">
+			<Label Text="Shell Under Internal Pressure"
+				   FontSize="Medium"
+				   FontAttributes="Bold"
+				   TextColor="#AC99EA"
+				   HorizontalTextAlignment="Center"/>
+			<Grid RowSpacing="5" ColumnSpacing="5">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Label Text="Joint Efficiency: E" VerticalTextAlignment="End"
+					   Grid.Column="0" Grid.Row="0"/>
+				<Entry x:Name="Shell_E" Grid.Column="1" Grid.Row="0"
+					   Placeholder=".85"
+					   Keyboard="Numeric"/>
+				<Label Text="Internal Design Pressure: P" VerticalTextAlignment="End"
+					   Grid.Column="0" Grid.Row="1"/>
+				<Entry x:Name="Shell_P" Grid.Column="1" Grid.Row="1"
+					   Placeholder="150"
+					   Text=""
+					   Keyboard="Numeric"/>
+				<Label Text="Inside Radius Shell Course: R" VerticalTextAlignment="End"
+						Grid.Column="0" Grid.Row="2"/>
+				<Entry x:Name="Shell_R" Grid.Column="1" Grid.Row="2"
+						Placeholder="36"
+						Keyboard="Numeric"/>
+				<Label Text="Maximum Allowable Stress: S" VerticalTextAlignment="End"
+					Grid.Column="0" Grid.Row="3"/>
+				<Entry x:Name="Shell_S" Grid.Column="1" Grid.Row="3"
+					Placeholder="15000"
+					Keyboard="Numeric"/>
+				<Label Text="Minimum Required Thickness: T" VerticalTextAlignment="End"
+					Grid.Column="0" Grid.Row="4"/>
+				<Entry x:Name="Shell_T" Grid.Column="1" Grid.Row="4"
+					Placeholder=".427"
+					Text=""
+					Keyboard="Numeric"/>
+			</Grid>
+			<Button x:Name="Shell_Pressure" 
+				Text="Calculate Pressure/Thickness"
+				Pressed="Shell_Pressure_Pressed"
+				Released="Btn_Released"/>
+
+			<Grid RowSpacing="5" ColumnSpacing="5">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Label Text="Circumferential Stress" FontAttributes="Bold"
+					   Grid.Row="0" Grid.Column="0"
+						TextColor="#AC99EA"/>
+				<Label Text="Longitudinal Stress" FontAttributes="Bold"
+				   Grid.Row="0" Grid.Column="1"
+					TextColor="#AC99EA"/>
+				<Label x:Name="Circ_Press"
+					Grid.Row="1" Grid.Column="0"
+					TextColor="#AC99EA"/>
+				<Label x:Name="Long_Press"
+					Grid.Row="1" Grid.Column="1"
+					TextColor="#AC99EA"/>
+			</Grid>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

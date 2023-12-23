@@ -1,0 +1,89 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+<div class="w3-container">
+ <h2>Ir192 shot calculator</h2>
+
+
+  <div class="w3-bar w3-light-grey">
+    <a href="index.html" class="w3-bar-item w3-button">Home</a>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Menu</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="halfLife.html" class="w3-bar-item w3-button">Decay Calc</a>
+        <a href="shotCalc.html" class="w3-bar-item w3-button">Shot Calc</a>
+        <a href="ug.html" class="w3-bar-item w3-button">Ug Calc</a>
+        <a href onclick="about()" class="w3-bar-item w3-button">About</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<hr>
+
+
+Enter Ci content<br>
+<input type="number" name="ci" id="ci"><br>
+Enter thickness of steel<br>
+<input type="number" name="thk" id="thk"><br>
+Enter source to film distance in inches<br>
+<input type="number" name="dist" id="dist"><br>
+Enter R factor<br>
+<input type="number" name="rf" id="rf"><br>
+
+<button type="button" onclick="calc()">Calculate</button>
+
+
+<br><hr>
+<p id="txt"></p><br>
+<p id="trble"></p>
+
+<script language="javascript">
+function calc(){
+
+var ci=Number(document.getElementById("ci").value);
+var thk=Number(document.getElementById("thk").value);
+var d=Number(document.getElementById("dist").value);
+var rf=Number(document.getElementById("rf").value);
+rf=rf*1000;
+
+var intOne=ci*5200;
+var inches=d/12;
+var disTwo=Math.pow(inches, 2);
+var intTwo=intOne/disTwo;
+var reduc=thk/0.53;
+var hvl=Math.pow(2, reduc);
+var shielding=intTwo/hvl;
+var rate=shielding;
+var rFactor=rf/rate;
+var hour;
+var min;
+var sec;
+var mins, hours;
+
+hour=rFactor;
+min=((hour%1)*60);
+
+sec=(min%1)*60;
+
+
+
+document.getElementById("txt").innerHTML="Your shot time in hours:minutes:seconds is</font><font color=#AA0033> "+noRound(hour)+":"+noRound(min)+":"+sec.toFixed(0);
+document.getElementById("trble").innerHTML="<br>Try my opengl slide calculator<br>(currently not optimized for mobile)<br><a href='http://ndttools.dx.am/slidecalc.html'>Slide Calc</a href>";
+}
+function about(){
+alert("This page was created by Martin Johnson to help radiographers");
+}
+
+function noRound(x){
+return (x-(x%1));
+}
+
+</script>
+</body>
+</html>
+

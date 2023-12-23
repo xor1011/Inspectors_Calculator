@@ -1,0 +1,63 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+<div class="w3-container">
+  <h2>uG Calc</h2>
+
+
+  <div class="w3-bar w3-light-grey">
+    <a href="index.html" class="w3-bar-item w3-button">Home</a>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Menu</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="halfLife.html" class="w3-bar-item w3-button">Decay Calc</a>
+        <a href="shotCalc.html" class="w3-bar-item w3-button">Shot Calc</a>
+        <a href="ug.html" class="w3-bar-item w3-button">Ug Calc</a>
+        <a href onclick="about()" class="w3-bar-item w3-button">About</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+Leave either ug, or source to object distance blank to find for the missing variable
+<br>
+Focal point size<br>
+<input type="number" name="focal" id="focal"><br>
+Subject to film distance<br>
+<input type="number" name="subject" id="subject"><br>
+Source to subject distance<br>
+<input type="number" name="source" id="source"><br>
+Ug<br>
+<input type="number" name="ug" id="ug"><br>
+<button type="button" onclick="calc()">Calculate</button><hr>
+<p id=txt>
+
+<script language="javascript">
+
+function calc(){
+   var d=Number(document.getElementById("source").value);
+   var f=Number(document.getElementById("focal").value);
+   var o=Number(document.getElementById("subject").value);
+   var ug=Number(document.getElementById("ug").value);
+   var factor;
+   var dist;
+   if (d==""){
+      dist=f*(o/ug);
+      document.getElementById("txt").innerHTML="The source to subject distance required for a ug factor of "+ug+" is "+dist.toFixed(2)+" inches";
+  }
+
+   if (ug==""){
+      factor=f*(o/d);
+      document.getElementById("txt").innerHTML="The ug would be "+factor.toFixed(3);
+  }
+}
+
+
+function about(){
+alert("This page was created by Martin Johnson to help radiographers");
+}
+</script>

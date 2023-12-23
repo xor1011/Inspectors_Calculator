@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiNavigationpages.Repair">
+
+    <ScrollView>
+		<VerticalStackLayout Spacing="5">
+			<Entry x:Name="NominalEntry"
+				   Placeholder="Enter the nominal thickness"
+				   Keyboard="Numeric"
+				   />
+			<Entry x:Name="TminEntry"
+				   Placeholder="Enter the calculated T-min"
+				   Keyboard="Numeric"/>
+			<Entry x:Name="ServiceLifeEntry"
+	   Placeholder="Enter years in service"
+	   Keyboard="Numeric"/>
+			<Entry x:Name="RemainingLifeEntry"
+	   Placeholder="Enter desired remaining life"
+	   Keyboard="Numeric"/>
+			<Button x:Name="CalculateBtn"
+					Text="Calculate"
+					Pressed="CalculateBtn_Clicked"
+					Released="Btn_Release"
+					/>
+
+			<Label x:Name="RepairLabel"
+				   Text="Restore anything below: "
+				   TextColor="Red"
+				   FontSize="Medium"/>
+
+		</VerticalStackLayout>
+      
+    </ScrollView>
+
+</ContentPage>

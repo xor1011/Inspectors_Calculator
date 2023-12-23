@@ -1,0 +1,55 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+<div class="w3-container">
+  <h2>Decay Calc</h2>
+
+
+  <div class="w3-bar w3-light-grey">
+    <a href="index.html" class="w3-bar-item w3-button">Home</a>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Menu</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="halfLife.html" class="w3-bar-item w3-button">Decay Calc</a>
+        <a href="shotCalc.html" class="w3-bar-item w3-button">Shot Calc</a>
+        <a href="ug.html" class="w3-bar-item w3-button">Ug Calc</a>
+        <a href onclick="about()" class="w3-bar-item w3-button">About</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h1>Decay Calc</h1>
+<hr>
+
+<input type="number" name="ci" id="ci"><br>Enter original Ci content<br><br>
+<input type="number" name="days" id="days"><br>Enter number of days elapsed<br><br>
+
+<button type="button" onclick="calc()">Calculate</button>
+<br><hr>
+<p id="txt"></p>
+</div>
+<script language="javascript">
+function calc(){
+
+var ci=Number(document.getElementById("ci").value);
+var days=Number(document.getElementById("days").value);
+
+var change=days/74;
+var nA=ci*(Math.pow(0.5, change));
+var GBq=nA.toFixed(2)*37;
+document.getElementById("txt").innerHTML="The new activity of your source is: </font><font color=#AA0044>"+nA.toFixed(2)+" Ci <br>"+GBq.toFixed(0)+" Gbq";
+
+
+}
+
+function about(){
+alert("This page was created by Martin Johnson to help radiographers");
+}
+</script>
+</body>
+</html>

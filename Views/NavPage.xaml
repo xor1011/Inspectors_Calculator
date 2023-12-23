@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiNavigationpages.Views.NavPage"
+             Title="Home">
+	<ScrollView>
+	<VerticalStackLayout Spacing="5" Padding="25">
+        <Label 
+            Text="Inspector's Calculator"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+		
+		<Button x:Name="CalcBtn"
+				Text="B31"
+				CornerRadius="25"
+				BackgroundColor="#AC99EA"
+				Clicked="CalcBtn_Clicked" />
+		
+		<Button x:Name="Section_VIII"
+				Text="Section VIII"
+				CornerRadius="25"
+				Pressed="Goto_Pressed"/>
+
+			<Button x:Name="Repair"
+				Text="Repair"
+				CornerRadius="25"
+				Pressed="Goto_Pressed"/>
+
+			<Button x:Name="Radiography"
+				Text="Radiography"
+				CornerRadius="25"
+				Pressed="Goto_Pressed"/>
+
+			<Button x:Name="AboutBtn"
+				Text="About"
+				CornerRadius="25"
+				BackgroundColor="#AC99EA"
+				Pressed="AboutBtn_Clicked"/>
+		
+
+	</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>
